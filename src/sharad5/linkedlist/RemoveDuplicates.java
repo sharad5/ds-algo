@@ -2,9 +2,10 @@ package sharad5.linkedlist;
 
 import java.util.HashSet;
 
+import sharad5.linkedlist.LinkedList.Node;
 
-// Q1 using extra space.
-class LinkedList{
+
+class LinkedList1{
 	class Node{
 		int data;
 		Node next;
@@ -28,29 +29,22 @@ class LinkedList{
 		node.next = new Node(data);
 	}
 	public void removeDuplicates(){
-		Node head = this.head;
-		HashSet<Integer> hash = new HashSet<>();
-		Node ptr = head;
-		Node prev = null;
-		while(ptr != null){
-			if(hash.contains(ptr.data))
-				prev.next = ptr.next;
-			else{
-				hash.add(ptr.data);
-				prev = ptr;
+		Node current = head, ptr;
+		while(current!=null){
+			ptr = current.next;
+			int current_data = current.data;
+			Node prev = current;
+			while(ptr != null){
+				if(ptr.data == current_data){
+					prev.next = ptr.next;
+				}
+				else{
+					prev = prev.next;
+				}
+				ptr = ptr.next;
 			}
-			ptr = ptr.next;
+			current = current.next;
 		}
-		//Implemented initially by not keeping record of prev.
-		/*while(ptr.next != null){
-			while(ptr.next != null && hash.contains(ptr.next.data)){
-				ptr.next = ptr.next.next;
-			}
-			if(ptr.next == null)
-				break;
-			hash.add(ptr.next.data);
-			ptr = ptr.next;
-		}*/
 	}
 	public String toString(){
 		Node node = head;
@@ -63,9 +57,9 @@ class LinkedList{
 	}
 }
 
-public class RemoveDuplicatesExtraSpace {
+public class RemoveDuplicates {
 	public static void main(String[] args){
-		LinkedList ll=new LinkedList();
+		LinkedList1 ll=new LinkedList1();
 		ll.add(5);
 		ll.add(1);
 		ll.add(0);
