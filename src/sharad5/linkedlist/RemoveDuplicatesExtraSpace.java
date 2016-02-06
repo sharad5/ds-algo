@@ -62,7 +62,7 @@ class LinkedList{
 	}
 }
 
-public class RemoveDuplicates {
+public class RemoveDuplicatesExtraSpace {
 	public static void main(String[] args){
 		LinkedList ll=new LinkedList();
 		ll.add(5);
