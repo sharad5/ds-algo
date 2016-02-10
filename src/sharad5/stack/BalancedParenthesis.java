@@ -1,4 +1,4 @@
-package sharad5;
+package sharad5.stack;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.Stack;
