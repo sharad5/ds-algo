@@ -1,6 +1,6 @@
 package jyotman94.linkedlist;
 
-import java.util.Stack;
+import java.util.*;
 
 public class LinkedList {
 
@@ -17,18 +17,46 @@ public class LinkedList {
 	}
 
 	public static void main(String... args) {
-		LinkedList ll = new LinkedList(7);
+		LinkedList ll = new LinkedList(3);
+		ll.add(5);
+		ll.add(0);
+		ll.add(0);
+		ll.add(3);
 		ll.add(1);
-		ll.add(1);
-		ll.add(7);
 
 		ll.printList();
-		System.out.println(ll.isPalindrome());
+		ll.removeDuplicates();
+		ll.printList();
 	}
 
 	// Q1
-	public void removeDuplicates() {
-
+	//Order changes
+	//Complexity - nlogn
+	public void removeDuplicatesWithoutBuffer() {
+		root = MergeSort(root);
+		Node temp = root;
+		while(temp.next != null){
+			if(temp.data == temp.next.data){
+				temp.next = temp.next.next;
+			}
+			temp = temp.next;
+		}
+	}
+	
+	// Q1
+	public void removeDuplicates(){
+		Node temp = root, temp2, prev;
+		while(temp.next != null){
+			temp2 = temp.next;
+			prev = temp;
+			while(temp2 != null){
+				if(temp.data == temp2.data){
+					prev.next = temp2.next;
+				}
+			}
+			prev = temp;
+			temp = temp.next;
+		}
 	}
 
 	// Q2
@@ -194,6 +222,70 @@ public class LinkedList {
 				break;
 			prev = null;
 		}
+	}
+	
+	//Q9
+	public Node MergeSort(Node head){
+		Node a, b;
+		if(head == null || head.next == null)
+			return head;
+		
+		ArrayList<Node> split = frontBackSplit(head);
+		a = split.get(0);
+		b = split.get(1);
+			
+		a = MergeSort(a);
+		b = MergeSort(b);
+		
+		head = sortedMerge(a, b);
+		return head;
+	}
+	
+	private Node sortedMerge(Node a, Node b){
+		Node result = null;
+		if(a == null)
+			return b;
+		else if(b == null)
+			return a;
+		
+		if(a.data <= b.data){
+			result = a;
+			result.next = sortedMerge(a.next, b);
+		}
+		else{
+			result = b;
+			result.next = sortedMerge(a, b.next);
+		}
+		return result;
+	}
+	
+	/* UTILITY FUNCTIONS */
+	/* Split the nodes of the given list into front and back halves,
+	     and return the two lists using the reference parameters.
+	     If the length is odd, the extra node should go in the front list.
+	     Uses the fast/slow pointer strategy.  */
+	private ArrayList<Node> frontBackSplit(Node source){
+		Node fast, slow, back = null;
+		
+		if(source != null && source.next != null){
+			slow = source;
+			fast = source.next;
+			while(fast != null){
+				fast = fast.next;
+				if(fast != null){
+					slow = slow.next;
+					fast = fast.next;
+				}
+			}
+			
+			//'slow' is before the midpoint in the list, so split it in two at that point. 
+			back = slow.next;
+			slow.next = null;
+		}
+		ArrayList<Node> nodes = new ArrayList<>();
+		nodes.add(source);
+		nodes.add(back);
+		return nodes;
 	}
 
 	public void reverseList() {
