@@ -17,15 +17,16 @@ public class LinkedList {
 	}
 
 	public static void main(String... args) {
-		LinkedList ll = new LinkedList(3);
+		LinkedList ll = new LinkedList(4);
 		ll.add(5);
-		ll.add(0);
-		ll.add(0);
 		ll.add(3);
+		ll.add(2);
+		ll.add(7);
+		ll.add(8);
 		ll.add(1);
 
 		ll.printList();
-		ll.removeDuplicates();
+		ll.partition(ll.root.next.next.next.next);
 		ll.printList();
 	}
 
@@ -137,6 +138,32 @@ public class LinkedList {
 		list2.reverseList();
 		ans.reverseList();
 		return ans;
+	}
+	
+	//Q5
+	public void partition(Node x){
+		Node temp = root;
+		LinkedList small = new LinkedList(0);
+		LinkedList big = new LinkedList(0);
+		while(temp != null){
+			if(temp.data > x.data){
+				big.add(temp.data);
+			}
+			else if(temp.data < x.data)
+				small.add(temp.data);
+			temp = temp.next;
+		}
+		
+		temp = small.root;
+		root = temp;
+		while(temp.next.next != null)
+			temp = temp.next;
+		temp.next = x;
+		x.next = big.root;
+		temp = big.root;
+		while(temp.next.next != null)
+			temp = temp.next;
+		temp.next = null;
 	}
 
 	// Q6
